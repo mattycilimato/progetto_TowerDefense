@@ -43,6 +43,10 @@ public class EnemySpawener : MonoBehaviour
                 BaseEnemy newEnemy = Instantiate(enemyToSpawn, LevelManager.pathPoints[0].position, Quaternion.identity);
                 spawnedEnemies.Add(newEnemy);
                 enemisWaweSpawned++;
+                if(enemisWaweSpawned >= waweDatas[currentWaweIndex].enemiesAmount)
+                {
+                    isSpawnig=false;
+                }
             }
 
         }
@@ -53,8 +57,26 @@ public class EnemySpawener : MonoBehaviour
         
         spawnRateTime = waweDatas[currentWaweIndex].GetSpawnRateTime();
         spawnRateTimer = 0;
+        enemisWaweSpawned = 0;
     }
 
+    public void OnEnemyDie(BaseEnemy deathEnemy)
+    {
+        if (spawnedEnemies.Contains(deathEnemy))
+        {
+            spawnedEnemies.Remove(deathEnemy);
+        }
+        if(spawnedEnemies.Count <= 0)
+        {
+            waweTimer = 0;
+            currentWaweIndex++;
+            if(currentWaweIndex < waweDatas.Count)
+            {
+                IsWAitingNextWawe = true;
+            }
+            
+        }
+    }
 
 
 
