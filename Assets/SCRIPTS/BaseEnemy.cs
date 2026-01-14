@@ -2,15 +2,26 @@ using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour
 {
-   public  Rigidbody2D body2D;
+    [Header("componet")]
+    
+    public  Rigidbody2D body2D;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    public Collider2D enemyCollider2D;
+
+
+
+    [Header("settings")]
     public float Speed = 20f;
     public int playerHitDamage =1;
     LevelManager levelManager;
     int targetPathIndex = 0;
     public bool IsSideSpriteFacingRight;
     public int MaxHp = 2;
+    public int moneyReward = 2;
+   
+    
+    
     int currentHp = 2;
     bool active = true;
     bool IsDead = false;
@@ -74,6 +85,7 @@ public class BaseEnemy : MonoBehaviour
     public void TargetReached()
     {
         active = false;
+        enemyCollider2D.enabled= false;
         PlayerManager playerManager = FindFirstObjectByType<PlayerManager>();
         if (playerManager != null)
         {
@@ -87,9 +99,14 @@ public class BaseEnemy : MonoBehaviour
         currentHp -= damege;
        spriteRenderer.color = Color.red;
         Invoke("ResetColor", 0.1f);
-        if(currentHp <= 0)
+        if(currentHp <= 0 && !IsDead)
         {
-           
+            IsDead = true;
+            PlayerManager playermanager = FindFirstObjectByType<PlayerManager>();
+            if (playermanager != null)
+            {
+                playermanager.GainMoney(moneyReward);
+            }
             DestroyMe();
         }
     }
@@ -110,7 +127,7 @@ public class BaseEnemy : MonoBehaviour
             enemySpawener.OnEnemyDie(this);
         }
         active = false;
-        IsDead = true;
+        ;
         animator.SetBool("Dead", IsDead);
         Invoke("Despawn", 4f);
         

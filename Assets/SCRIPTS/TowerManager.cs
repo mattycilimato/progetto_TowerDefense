@@ -7,7 +7,27 @@ public class TowerManager : MonoBehaviour
     [Header("settings")]
     public LayerMask raycastLayer;
 
+    [Header("Componets")]
+    public TowerPreView towerPreView;
+    public PlayerManager playerManager;
+
+    [Header("Prefab")]
+    public TowerBase towerToBuild;
+
     Cell currentHoverCell;
+
+    bool IsBuildingTower;
+    int buildTowerIndex = -1;
+
+    private void Awake()
+    {
+        towerPreView.gameObject.SetActive(false);
+    }
+
+
+
+
+
 
     public void Update()
 {
@@ -21,19 +41,46 @@ public class TowerManager : MonoBehaviour
         if(hit.collider != null)
         {
             Cell cell = hit.collider.transform.GetComponent<Cell>();
-            if(cell != null )
+            if(cell != null && cell != currentHoverCell)
             {
-                cell.HoverStart();
-                if(cell != currentHoverCell)
-                {
+                
+                
+                
                     ResetHover();
-                }
+               
+                
+                    cell.HoverStart();
+                
+                
                 currentHoverCell = cell; 
             }
         }
         else
         {
-            ResetHover();   
+            ResetHover();
+            towerPreView.gameObject.SetActive(false);
+        }
+        if (IsBuildingTower && currentHoverCell != null)
+        {
+            towerPreView.transform.position = currentHoverCell.transform.position;
+            if(currentHoverCell.HasTower)
+                towerPreView.gameObject.SetActive(false);
+            else
+                towerPreView.gameObject.SetActive(true);
+        }
+
+        if (Mouse.current.leftButton.wasPressedThisFrame && currentHoverCell != null)
+        {
+            if (playerManager.SpendMoney(5))
+            {
+                Vector3 pos = currentHoverCell.transform.position;
+                TowerBase newTower = Instantiate(towerToBuild, pos, Quaternion.identity, currentHoverCell.transform);
+                currentHoverCell.InsertTowerOnSell(newTower);
+            }
+            else
+            {
+                //Mostrare che non hai i soldi
+            }
         }
     }
 
@@ -45,5 +92,20 @@ public class TowerManager : MonoBehaviour
             currentHoverCell = null;
         }
     }
+
+    public void EventButton_BuildTower(int towerIndex)
+    {
+        if(buildTowerIndex == towerIndex)
+        {
+            IsBuildingTower = false;
+        }
+        else
+        {
+            IsBuildingTower = true;
+            buildTowerIndex = towerIndex;   
+        }
+    }
+
+
 
 }

@@ -51,10 +51,12 @@ MonoBehaviour:
   body2D: {fileID: 2082040727055796966}
   animator: {fileID: 6963978128325669198}
   spriteRenderer: {fileID: 373727982374242227}
-  Speed: 3
+  enemyCollider2D: {fileID: 2426730941331642471}
+  Speed: 1
   playerHitDamage: 1
   IsSideSpriteFacingRight: 0
-  MaxHp: 2
+  MaxHp: 3
+  moneyReward: 2
 --- !u!212 &373727982374242227
 SpriteRenderer:
   m_ObjectHideFlags: 0
