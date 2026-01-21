@@ -12,7 +12,9 @@ public class TowerManager : MonoBehaviour
     public PlayerManager playerManager;
 
     [Header("Prefab")]
-    public TowerBase towerToBuild;
+    public ArcherTower archerTower;
+    public CannonTower cannonTower;
+    
 
     Cell currentHoverCell;
 
@@ -71,19 +73,62 @@ public class TowerManager : MonoBehaviour
 
         if (Mouse.current.leftButton.wasPressedThisFrame && currentHoverCell != null)
         {
-            if (playerManager.SpendMoney(5))
+            
+            if (IsBuildingTower && !currentHoverCell.HasTower)
             {
-                Vector3 pos = currentHoverCell.transform.position;
-                TowerBase newTower = Instantiate(towerToBuild, pos, Quaternion.identity, currentHoverCell.transform);
-                currentHoverCell.InsertTowerOnSell(newTower);
+                TowerBase towerToBuild = GetTowerToBuild();
+                
+
+
+
+
+                if (playerManager.SpendMoney(towerToBuild.cost))
+                {
+                    Vector3 pos = currentHoverCell.transform.position;
+                    TowerBase newTower = Instantiate(towerToBuild, pos, Quaternion.identity, currentHoverCell.transform);
+                    currentHoverCell.InsertTowerOnSell(newTower);
+                }
+                else
+                {
+                    //Mostrare che non hai i soldi
+                }
             }
-            else
-            {
-                //Mostrare che non hai i soldi
-            }
+            
+
+           
+            
+            
+            
+            
+            
+            
+            
         }
     }
 
+    
+    TowerBase GetTowerToBuild()
+    {
+       
+        if (buildTowerIndex == 0)
+        {
+            return archerTower;
+        }
+        else if (buildTowerIndex == 1)
+        {
+            return cannonTower;
+        }
+        else
+        {
+            
+            Debug.LogError("LA TORRE CHE VUOI NON ESISTE");
+            return archerTower;
+        }
+    }
+    
+    
+    
+    
     void ResetHover()
     {
         if (currentHoverCell != null)
@@ -102,7 +147,9 @@ public class TowerManager : MonoBehaviour
         else
         {
             IsBuildingTower = true;
-            buildTowerIndex = towerIndex;   
+            buildTowerIndex = towerIndex;
+            TowerBase towerToBuild = GetTowerToBuild();
+            towerPreView.setPreview(towerToBuild.GetTowerSprite(),towerToBuild.range * 2);
         }
     }
 

@@ -58,6 +58,7 @@ public class EnemySpawener : MonoBehaviour
         spawnRateTime = waweDatas[currentWaweIndex].GetSpawnRateTime();
         spawnRateTimer = 0;
         enemisWaweSpawned = 0;
+        
     }
 
     public void OnEnemyDie(BaseEnemy deathEnemy)
@@ -66,7 +67,10 @@ public class EnemySpawener : MonoBehaviour
         {
             spawnedEnemies.Remove(deathEnemy);
         }
-        if(spawnedEnemies.Count <= 0)
+
+        bool allWawesSpeed = enemisWaweSpawned >= waweDatas[currentWaweIndex].enemiesAmount;
+
+        if( allWawesSpeed && spawnedEnemies.Count <= 0)
         {
             waweTimer = 0;
             currentWaweIndex++;

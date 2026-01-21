@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4178046375966092550, guid: 16f6f23aca0df704d8114f92b15ba97a, type: 3}
+  m_Sprite: {fileID: 3465286685962602723, guid: 84d9f677114de5f419fef8d2a09c0818, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,9 +99,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7998638241787271921}
-  - component: {fileID: 782271452821637881}
+  - component: {fileID: 2685707999847359354}
   m_Layer: 0
-  m_Name: Tower
+  m_Name: Cannon_Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ Transform:
   - {fileID: 2985422686515903178}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &782271452821637881
+--- !u!114 &2685707999847359354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,12 +133,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5516574575986732601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cafb4baa00425ad42b26d7694a0ffb0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 264294ca4505ba240b09badf0e3c1e4c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TowerBase
-  range: 1.5
+  m_EditorClassIdentifier: Assembly-CSharp::CannonTower
+  range: 3
   damage: 1
-  shootRate: 1
+  shootRate: 2
+  cost: 7
   towerSpriteRenderer: {fileID: 2122367236462571610}
   rangeSpriteRenderer: {fileID: 1818362586045459863}
   trigger: {fileID: 2591227409575675749}

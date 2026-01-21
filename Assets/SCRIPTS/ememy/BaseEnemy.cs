@@ -25,7 +25,7 @@ public class BaseEnemy : MonoBehaviour
     int currentHp = 2;
     bool active = true;
     bool IsDead = false;
-    private void Awake()
+    public virtual void Awake()
     {
         levelManager = FindFirstObjectByType<LevelManager>();
         currentHp = MaxHp;
@@ -34,7 +34,7 @@ public class BaseEnemy : MonoBehaviour
     public int TargetPathIndex => targetPathIndex;
     
 
-    public void Update()
+    public virtual void Update()
     {
         if (!active)
         {
@@ -94,7 +94,7 @@ public class BaseEnemy : MonoBehaviour
         DestroyMe();
     }
 
-    public void Hit(int damege)
+    public virtual void Hit(int damege)
     {
         currentHp -= damege;
        spriteRenderer.color = Color.red;
